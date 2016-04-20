@@ -12,9 +12,9 @@ var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = '03ffe0cac0a0401aa6673c3cf6d02ced'; // Your client id
-var client_secret = 'a57c43efb9644574a96d6623fb8bfbc2'; // Your client secret
-var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
+var client_id = 'd1033531311a43b38b3cedbd9b363367'; // Your client id
+var client_secret = '**********'; // Your client secret, REDACTED FOR SECURITY
+var redirect_uri = 'http://localhost:9999/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -141,5 +141,5 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log('Listening on 8888');
-app.listen(8888);
+console.log('Listening on 9999');
+app.listen(9999);
