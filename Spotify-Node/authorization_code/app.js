@@ -148,6 +148,18 @@ app.get('/callback', function(req, res) {
   }
 });
 
+app.post('/search', function(req, res) {
+  console.log(req.body);
+  spotifyApi.searchTracks(req.body.search)
+  .then(function(data) {
+    console.log(data);
+  },
+  function(err) {
+    console.log(err);
+  });
+  res.redirect('/');
+});
+
 app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token

@@ -13,16 +13,6 @@
         white-space: nowrap;
         width: 500px;
       }
-      .hidden-uri {
-        display: none;
-      }
-      .elem-inline {
-        display: inline;
-      }
-      .song {
-        display: inline;
-        float: right;
-      }
     </style>
   </head>
 
@@ -57,20 +47,9 @@
             <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
             <dt>Country</dt><dd>{{country}}</dd>
           </dl>
-          <h3>Search</h3>
-          
-          
         </div>
       </div>
     </script>
-          <form action="https://api.spotify.com/v1/search" method="get" enctype="application/x-www-form-urlencoded" id="form-ajax">
-          <label for="search">Search box</label>
-          <input type="text" name="q" id="search" required/>
-          <!-- <input type="text" name="type" id="type" required/> -->
-          <button type="submit">Submit</button>
-          </form>
-          <div id="form-response">
-          </div>
 
     <script id="oauth-template" type="text/x-handlebars-template">
       <h2>oAuth info</h2>
@@ -82,99 +61,6 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-          $(document).ready(function() {
-            console.log("readied form");
-              // Get the form.
-              var form = $('#form-ajax');
-
-              // Get the messages div.
-              var formMessages = $('#form-response');
-
-              // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-              // Stop the browser from submitting the form.
-              event.preventDefault();
-
-              console.log(form);
-
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              formData += '&type=track&limit=5';
-              console.log(formData);
-
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'GET',
-                  url: $(form).attr('action'),
-                  data: formData
-              })
-              .done(function(response) {
-                  // Make sure that the formMessages div has the 'success' class.
-                  $(formMessages).removeClass('error');
-                  $(formMessages).addClass('success');
-
-                  // Set the message text.
-                  $(formMessages).text(response);
-
-                  //var to be appended
-                  searchFormatted = [];
-
-                  //loop through tracks
-                  returnedTracks = response.tracks.items;
-                  returnedTracks.forEach(function(element) {
-                    console.log(element);
-                    searchFormatted.push({
-                      name: element.name,
-                      artist: element.artists[0].name,
-                      image: element.album.images[2].url,
-                      uri: element.uri
-                    });
-                    
-                  });
-
-                  //appended to html variable
-                  var searchAppend = '<br>';
-
-                  searchFormatted.forEach(function(element) {
-                    searchAppend += '<img class="elem-inline" src="' + element.image + '" />';
-                    searchAppend += '<div class="elem-inline">';
-                    searchAppend += '<h3 class="song">' + element.name + '</h3>';
-                    searchAppend += '<br>'
-                    searchAppend += '<h4 class="song">' + element.artist + '</h4>';
-                    searchAppend += '<p class="hidden-uri">' + element.uri + '</p>';
-                    searchAppend += '</div>';
-                    searchAppend += '<br>';
-
-                    console.log(element.name);
-                    console.log(element.artist);
-                    console.log(element.image);
-                    console.log(element.uri);
-                  });
-
-                  $(formMessages).append(searchAppend);
-
-                  // Clear the form.
-                  $('#search').val('');
-              })
-              .fail(function(data) {
-                  // Make sure that the formMessages div has the 'error' class.
-                  $(formMessages).removeClass('success');
-                  $(formMessages).addClass('error');
-
-                  // Set the message text.
-                  if (data.responseText !== '') {
-                      $(formMessages).text(data.responseText);
-                  } else {
-                      $(formMessages).text('Oops! An error occured and your message could not be sent.');
-                  }
-              });
-
-            });
-          });
-
-          
-          </script>
     <script>
       (function() {
 
@@ -233,21 +119,6 @@
               $('#login').show();
               $('#loggedin').hide();
           }
-
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
 
           document.getElementById('obtain-new-token').addEventListener('click', function() {
             $.ajax({
