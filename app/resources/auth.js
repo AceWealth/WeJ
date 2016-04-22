@@ -2,14 +2,22 @@
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var SpotifyWebApi = require('spotify-web-api-node');
 
 	var client_id = 'd1033531311a43b38b3cedbd9b363367'; // Your client id
 	var client_secret = '*'; // Your client secret, REDACTED FOR SECURITY
 	var redirect_uri = 'http://localhost:9999/callback'; // Your redirect uri
 
+	var spotifyApi = new SpotifyWebApi({
+	  clientId : client_id,
+	  clientSecret : client_secret,
+	  redirectUri : redirect_uri
+	});
+
 	var accessToken = '';
 	var refreshToken = '';
 	var user_Id = '';
+	var playlist_Id = '';
 
 	var generateRandomString = function(length) {
 	  var text = '';
@@ -84,21 +92,36 @@ module.exports = function(app, tokens) {
 	        accessToken = body.access_token;
 	        refreshToken = body.refresh_token;
 
-	        var options = {
+	        spotifyApi.setAccessToken(tokens.getAccess());
+
+	        console.log(body.access_token);
+	        var userOptions = {
 	          url: 'https://api.spotify.com/v1/me',
-	          headers: { 'Authorization': 'Bearer ' + accessToken },
-	          json: true
+	          headers: { 'Authorization': 'Bearer ' + accessToken }
 	        };
 
 	        // request the userId
-	        request.get(options, function(error, response, body) { 
+	        request.get(userOptions, function(error, response, body) { 
 	        	if(!error){
-	          		user_Id = body.id;
+	        		fixedBody = JSON.parse(body);
+	          		user_Id = fixedBody.id;
+	          		console.log(user_Id);
+
+      			        spotifyApi.createPlaylist(user_Id, 'WeJ Playlist', {'public' : true})
+      			          .then(function(data) {
+						    console.log('Created playlist!');
+						    playlist_Id = data.body.id;
+						  }, function(err) {
+						    console.log('Something went wrong!', err);
+						  });
+
 	      		} else {
 	      			console.log(error);
 	      		}
 
 	        });
+
+
 
 	        // redirect to the party
 	        res.redirect('/party');
@@ -131,6 +154,9 @@ module.exports = function(app, tokens) {
 	}
 	tokens.getuId = function() {
 		return user_Id;
+	}
+	tokens.getpId = function() {
+		return playlist_Id;
 	}
 	tokens.refresh = function() {
 		var authOptions = {

@@ -39,7 +39,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 var msgs = [];
 
 //Playlist id, will not be static later
-var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
+//var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
 
 module.exports = function(app, io, tokens) {
 
@@ -71,10 +71,12 @@ module.exports = function(app, io, tokens) {
 	    });
 
 	    //test msg: spotify:track:5kqIPrATaCc2LqxVWzQGbk
-	    spotifyApi.addTracksToPlaylist(tokens.getuId(), playlistId, [msg.uri, ""])
+	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log(data);
           }, function(err) {
+          	console.log('User id: ' + tokens.getuId());
+          	console.log('Playlist id: ' + tokens.getpId());
             console.log(err);
         });
 
