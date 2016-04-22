@@ -1,0 +1,116 @@
+body {
+    background:hsla(207, 5%, 5%, 1);
+    overflow: hidden;
+    width:100%;
+    
+}
+#page {
+  z-index: -100;
+}
+#container {
+  width: 400px;
+  margin: 0 auto;
+  z-index: 5;
+}
+
+#form-response {
+  z-index: 5;
+}
+
+.elem-inline {
+  display: inline;
+}
+
+#search {
+  text-align: center;
+  width: 100%;
+}
+
+#searchField {
+  background-color: white;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+}
+
+#searchButton {
+  background-color: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+#form-response {}
+
+.song-listing {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #EEEEEE;
+  height: 80px;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+ul {
+  float: left;
+  margin: 7px 0 0 0;
+  padding-left: 15px;
+}
+
+li {
+  list-style-type: none;
+  font-family: Arial;
+  line-height: 1.5em;
+}
+
+.track {
+  font-size: 1.1em;
+}
+
+.artist {
+  font-size: 1em;
+}
+
+img {
+  float: left;
+}
+
+.hidden-uri {
+  display: none;
+}
+
+.add {
+  float: right;
+  height: 50px;
+  margin-top: 7px;
+  background-color: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+}
+
+.add:hover {
+  background-color: #F5F5F5;
+}
+
+
+#page {
+    margin: .5em;
+    position: relative;
+    width:100%;
+}
+.block {
+    width: 30px;
+    height: 20px;
+    background: hsla(0, 0%, 6.7% , .7);
+    border-radius: 2px;
+    position: absolute;
+    animation: go 750ms ease infinite alternate;
+}
+@keyframes go {
+    0% {
+        transform: scale(1, 1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.5, 1.5) translate(0, 0);
+    }
+}
