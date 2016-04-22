@@ -1,39 +1,247 @@
-<div id="page">
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+/*      body {
+    background:hsla(207, 5%, 5%, 1);
+    overflow: hidden;
+    width:100%;  
+}*/
+/*#page {
+  z-index: -100;
+}*/
+#container {
+  width: 400px;
+  margin: 0 auto;
+  z-index: 5;
+}
 
+#form-response {
+  z-index: 5;
+}
+
+.elem-inline {
+  display: inline;
+}
+
+#search {
+  text-align: center;
+  width: 100%;
+}
+
+#searchField {
+  background-color: white;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+}
+
+#searchButton {
+  background-color: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+#form-response {}
+
+.song-listing {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #EEEEEE;
+  height: 80px;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+ul {
+  float: left;
+  margin: 7px 0 0 0;
+  padding-left: 15px;
+}
+
+li {
+  list-style-type: none;
+  font-family: Arial;
+  line-height: 1.5em;
+}
+
+.track {
+  font-size: 1.1em;
+}
+
+.artist {
+  font-size: 1em;
+}
+
+img {
+  float: left;
+}
+
+.hidden-uri {
+  display: none;
+}
+
+.add {
+  float: right;
+  height: 50px;
+  margin-top: 7px;
+  background-color: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  border-radius: 3px;
+}
+
+.add:hover {
+  background-color: #F5F5F5;
+}
+
+    </style>
+      <script src="/socket.io/socket.io.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <h3>Songs</h3>
+    <ul id="songs"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button type="submit">Send</button>
+    </form>
+  
   <div id="container">
-
     <div id="search">
-      <input type="text" name="search_wej" id="searchField">
-      <button id="searchButton">
+    <form action="https://api.spotify.com/v1/search" method="get" enctype="application/x-www-form-urlencoded" id="form-ajax">
+      <input type="text" name="q" id="searchField">
+      <button type="submit" id="searchButton">
         Search
       </button>
+    </form>
     </div>
-    <div id="form-response" class="success">
-      <br>
-      <div class="song-listing elem-inline">
-        <img class="elem-inline" src="https://i.scdn.co/image/a06f250e3d2fee9dd0d1f959d06e49034c388edd">
-        <ul>
-          <li class="track">You're On</li>
-          <li class="artist">Madeon</li>
-          <p class="hidden-uri">spotify:track:4PTPZeJlK1rYlYr6bf11hk</p>
-        </ul>
-        <button class="add">
-          Add to Queue
-        </button>
-      </div>
-      <div class="song-listing elem-inline">
-        <img class="elem-inline" src="https://i.scdn.co/image/a06f250e3d2fee9dd0d1f959d06e49034c388edd">
-        <ul>
-          <li class="track">You're On</li>
-          <li class="artist">Madeon</li>
-          <p class="hidden-uri">spotify:track:4PTPZeJlK1rYlYr6bf11hk</p>
-        </ul>
-        <button class="add">
-          Add to Queue
-        </button>
-      </div>
+
+    <div id="search-results">
     </div>
   </div>
-</div>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+        <script>
+          $(document).ready(function() {
+            console.log("readied form");
+              // Get the form.
+              var form = $('#form-ajax');
+
+              // Get the messages div.
+              var formMessages = $('#search-results');
+
+              // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
+              // Stop the browser from submitting the form.
+              event.preventDefault();
+
+              console.log(form);
+
+              // Serialize the form data.
+              var formData = $(form).serialize();
+              formData += '&type=track&limit=5';
+              console.log(formData);
+
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'GET',
+                  url: $(form).attr('action'),
+                  data: formData
+              })
+              .done(function(response) {
+                  // Make sure that the formMessages div has the 'success' class.
+                  $(formMessages).removeClass('error');
+                  $(formMessages).addClass('success');
+
+                  // Set the message text.
+                  $(formMessages).text(response);
+
+                  //var to be appended
+                  searchFormatted = [];
+
+                  //loop through tracks
+                  returnedTracks = response.tracks.items;
+                  returnedTracks.forEach(function(element) {
+                    console.log(element);
+                    searchFormatted.push({
+                      name: element.name,
+                      artist: element.artists[0].name,
+                      image: element.album.images[2].url,
+                      uri: element.uri
+                    });
+                    
+                  });
+
+                  //appended to html variable
+                  var searchAppend = '<br>';
+
+                  searchFormatted.forEach(function(element) {
+                    searchAppend += '<div class="song-listing elem-inline">';
+                    searchAppend += '<img class="elem-inline" src="' + element.image + '" />';
+                    searchAppend += '<ul>';
+                    searchAppend += '<li class="track">' + element.name + '</li>';
+                    searchAppend += '<li class="artist">' + element.artist + '</li>';
+                    searchAppend += '<p class="hidden-uri">' + element.uri + '</p>';
+                    searchAppend += '</ul>';
+                    searchAppend += '<button class="add">Add to Queue</button>';
+                    searchAppend += '</div>';
+
+                    console.log(element.name);
+                    console.log(element.artist);
+                    console.log(element.image);
+                    console.log(element.uri);
+                  });
+
+                  $(formMessages).append(searchAppend);
+
+                  // Clear the form.
+                  $('#search').val('');
+              })
+              .fail(function(data) {
+                  // Make sure that the formMessages div has the 'error' class.
+                  $(formMessages).removeClass('success');
+                  $(formMessages).addClass('error');
+
+                  // Set the message text.
+                  if (data.responseText !== '') {
+                      $(formMessages).text(data.responseText);
+                  } else {
+                      $(formMessages).text('Oops! An error occured and your message could not be sent.');
+                  }
+              });
+
+            });
+          });
+
+          
+          </script>
+    <script>
+      console.log('Script entered');
+      var socket = io();
+      $('form').submit(function(event){
+        event.preventDefault();
+        console.log('form submitted');
+        socket.emit('song add', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+
+      socket.on('song add', function(msg) {
+        console.log('Message ' + msg);
+        $('#messages').append($('<li>').text(msg));
+      });
+
+      socket.on('join socket', function(msgs) {
+        console.log('Adding all messages');
+        console.log(msgs);
+        msgs.forEach(function(element) {
+          $('#messages').append($('<li>').text(element.message));
+        });
+      })
+    </script>
+  </body>
+</html>

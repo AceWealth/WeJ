@@ -28,10 +28,59 @@
 	        //   });
 	        // });
 
-module.exports = function(app, tokens) {
-	console.log('Inside routes: ' + tokens.getcId());
+
+
+
+//spotify api decleration
+var SpotifyWebApi = require('spotify-web-api-node');
+
+
+//variable to store messages
+var msgs = [];
+
+//Playlist id, will not be static later
+var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
+
+module.exports = function(app, io, tokens) {
+
+	var spotifyApi = new SpotifyWebApi({
+	  clientId : tokens.getcId,
+	  clientSecret : tokens.getcSec,
+	  redirectUri : tokens.getRed
+	});
+
+
+	
 
 	app.get('/party', function(req, res) {
-		res.send('Party worked!');
+		spotifyApi.setAccessToken(tokens.getAccess());
+		//console.log('Inside routes: ' + tokens.getAccess());
+		res.sendFile(__dirname + '/index.html');
 	});
+
+	io.on('connection', function(socket){
+
+	  console.log('user connected ' + socket.id);
+	  //send all songs to the new connection
+	  socket.emit('join socket', msgs);
+
+
+	  socket.on('song add', function(msg){
+	    msgs.push({
+	    	message: msg
+	    });
+
+	    //test msg: spotify:track:5kqIPrATaCc2LqxVWzQGbk
+	    spotifyApi.addTracksToPlaylist(tokens.getuId(), playlistId, [msg.uri, ""])
+	    .then(function(data) {
+            console.log(data);
+          }, function(err) {
+            console.log(err);
+        });
+
+	    io.emit('song add', msg);
+	  });
+
+	});
+
 };

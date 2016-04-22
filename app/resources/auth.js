@@ -9,6 +9,7 @@ var cookieParser = require('cookie-parser');
 
 	var accessToken = '';
 	var refreshToken = '';
+	var user_Id = '';
 
 	var generateRandomString = function(length) {
 	  var text = '';
@@ -82,6 +83,23 @@ module.exports = function(app, tokens) {
 
 	        accessToken = body.access_token;
 	        refreshToken = body.refresh_token;
+
+	        var options = {
+	          url: 'https://api.spotify.com/v1/me',
+	          headers: { 'Authorization': 'Bearer ' + accessToken },
+	          json: true
+	        };
+
+	        // request the userId
+	        request.get(options, function(error, response, body) { 
+	        	if(!error){
+	          		user_Id = body.id;
+	      		} else {
+	      			console.log(error);
+	      		}
+
+	        });
+
 	        // redirect to the party
 	        res.redirect('/party');
 	      } else {
@@ -110,6 +128,9 @@ module.exports = function(app, tokens) {
 	}
 	tokens.getRefresh = function() {
 		return refreshToken;
+	}
+	tokens.getuId = function() {
+		return user_Id;
 	}
 	tokens.refresh = function() {
 		var authOptions = {
