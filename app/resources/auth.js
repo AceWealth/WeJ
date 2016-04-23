@@ -6,7 +6,11 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 	var client_id = 'd1033531311a43b38b3cedbd9b363367'; // Your client id
 	var client_secret = '*'; // Your client secret, REDACTED FOR SECURITY
+<<<<<<< HEAD
+	var redirect_uri = 'http://wej.pedelen.com/callback'; // Your redirect uri
+=======
 	var redirect_uri = 'http://localhost:9999/callback'; // Your redirect uri
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 
 	var spotifyApi = new SpotifyWebApi({
 	  clientId : client_id,
@@ -123,8 +127,13 @@ module.exports = function(app, tokens) {
 
 
 
+<<<<<<< HEAD
+	        // redirect to passed to clear the array
+	        res.redirect('/passed');
+=======
 	        // redirect to the party
 	        res.redirect('/party');
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 	      } else {
 	        res.redirect('/#' +
 	          querystring.stringify({

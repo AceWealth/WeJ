@@ -49,7 +49,15 @@ module.exports = function(app, io, tokens) {
 	  redirectUri : tokens.getRed
 	});
 
+<<<<<<< HEAD
+	app.get('/passed', function(req, res) {
+		console.log('User login passed, clearing array');
+		msgs.length = 0;
+		res.redirect('/party');
+	});
+=======
 
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 	
 
 	app.get('/party', function(req, res) {
@@ -58,13 +66,33 @@ module.exports = function(app, io, tokens) {
 		res.sendFile(__dirname + '/index.html');
 	});
 
+<<<<<<< HEAD
+	io.on('connection', function(socket) {
+=======
 	io.on('connection', function(socket){
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 
 	  console.log('user connected ' + socket.id);
 	  //send all songs to the new connection
 	  socket.emit('join socket', msgs);
 
 
+<<<<<<< HEAD
+	  socket.on('song add', function(msg) {
+	    msgs.push({
+	    	name: msg.name,
+	    	artist: msg.artist,
+	    	image: msg.image,
+	    	uri: msg.uri,
+	    	score: 0
+	    });
+	    console.log('Added song ' + msg.name);
+
+	    //disabled for development
+	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
+	    .then(function(data) {
+            console.log('Added song to playlist');
+=======
 	  socket.on('song add', function(msg){
 	    msgs.push({
 	    	message: msg
@@ -74,6 +102,7 @@ module.exports = function(app, io, tokens) {
 	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log(data);
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
           }, function(err) {
           	console.log('User id: ' + tokens.getuId());
           	console.log('Playlist id: ' + tokens.getpId());
@@ -83,6 +112,56 @@ module.exports = function(app, io, tokens) {
 	    io.emit('song add', msg);
 	  });
 
+<<<<<<< HEAD
+
+
+	  socket.on('vote', function(vote) {
+	  	index = msgs.map(function(element) { return element.name }).indexOf(vote.name);
+	  	oldscore = msgs[index].score;
+	  	newscore = oldscore + vote.vote;
+	  	msgs[index].score = newscore;
+
+	  	console.log('New score of ' + msgs[index].name + ' is ' + msgs[index].score);
+	  	msg = {
+	  		uri: vote.uri,
+	  		score: msgs[index].score
+	  	};
+
+	  		newindex = index;
+	  		switching = false;
+
+	  	for(i = 0; i < msgs.length; i++){
+	  		if(i < index && msgs[i].score > newscore){
+	  			switching = true;
+	  			newindex = i;
+	  			break;
+	  		}
+	  	}
+
+	  	if(switching){
+	  		console.log('Switching songs around');
+
+	  		spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
+			  .then(function(data) {
+			    console.log('Tracks reordered in playlist!');
+			  }, function(err) {
+			    console.log('Something went wrong!', err);
+			  });
+
+			  msgs.splice(newindex, 0, msgs.splice(index, 1)[0]);
+
+			  socket.emit('join socket', msgs);
+
+	  	} else {
+	  		//send vote
+	  		io.emit('vote', msg);
+	  	}
+
+	  });
+
+	});//end socket
+=======
 	});
+>>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 
 };
