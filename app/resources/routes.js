@@ -49,15 +49,11 @@ module.exports = function(app, io, tokens) {
 	  redirectUri : tokens.getRed
 	});
 
-<<<<<<< HEAD
 	app.get('/passed', function(req, res) {
 		console.log('User login passed, clearing array');
 		msgs.length = 0;
 		res.redirect('/party');
 	});
-=======
-
->>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 	
 
 	app.get('/party', function(req, res) {
@@ -66,18 +62,13 @@ module.exports = function(app, io, tokens) {
 		res.sendFile(__dirname + '/index.html');
 	});
 
-<<<<<<< HEAD
 	io.on('connection', function(socket) {
-=======
-	io.on('connection', function(socket){
->>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 
 	  console.log('user connected ' + socket.id);
 	  //send all songs to the new connection
 	  socket.emit('join socket', msgs);
 
 
-<<<<<<< HEAD
 	  socket.on('song add', function(msg) {
 	    msgs.push({
 	    	name: msg.name,
@@ -92,17 +83,6 @@ module.exports = function(app, io, tokens) {
 	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log('Added song to playlist');
-=======
-	  socket.on('song add', function(msg){
-	    msgs.push({
-	    	message: msg
-	    });
-
-	    //test msg: spotify:track:5kqIPrATaCc2LqxVWzQGbk
-	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
-	    .then(function(data) {
-            console.log(data);
->>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
           }, function(err) {
           	console.log('User id: ' + tokens.getuId());
           	console.log('Playlist id: ' + tokens.getpId());
@@ -112,7 +92,6 @@ module.exports = function(app, io, tokens) {
 	    io.emit('song add', msg);
 	  });
 
-<<<<<<< HEAD
 
 
 	  socket.on('vote', function(vote) {
@@ -130,10 +109,13 @@ module.exports = function(app, io, tokens) {
 	  		newindex = index;
 	  		switching = false;
 
+	  	console.log('Entering loop, preconditions: Score ' + newscore + ' index ' + index);
 	  	for(i = 0; i < msgs.length; i++){
-	  		if(i < index && msgs[i].score > newscore){
+	  		console.log('Song ' + msgs[i].name + ' index ' + i + ' score ' + msgs[i].score );
+	  		if(i < index && msgs[i].score < newscore){
 	  			switching = true;
 	  			newindex = i;
+	  			console.log('Song order change detected');
 	  			break;
 	  		}
 	  	}
@@ -150,7 +132,11 @@ module.exports = function(app, io, tokens) {
 
 			  msgs.splice(newindex, 0, msgs.splice(index, 1)[0]);
 
-			  socket.emit('join socket', msgs);
+			  for(i = 0; i < msgs.length; i++){
+			  		console.log('Current song ' + msgs[i].name);
+			  	}
+
+			  io.emit('join socket', msgs);
 
 	  	} else {
 	  		//send vote
@@ -160,8 +146,5 @@ module.exports = function(app, io, tokens) {
 	  });
 
 	});//end socket
-=======
-	});
->>>>>>> b5ab36a331b0d9ab9b7c6a48ed0eb01f1403e6a9
 
 };
