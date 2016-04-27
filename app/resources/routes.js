@@ -80,14 +80,14 @@ module.exports = function(app, io, tokens) {
 	    console.log('Added song ' + msg.name);
 
 	    //disabled for development
-	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
+	    /*spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log('Added song to playlist');
           }, function(err) {
           	console.log('User id: ' + tokens.getuId());
           	console.log('Playlist id: ' + tokens.getpId());
             console.log(err);
-        });
+        });*/
 
 	    io.emit('song add', msg);
 	  });
@@ -123,12 +123,13 @@ module.exports = function(app, io, tokens) {
 	  	if(switching){
 	  		console.log('Switching songs around');
 
-	  		spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
+	  		//disabled for development
+	  		/*spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
 			  .then(function(data) {
 			    console.log('Tracks reordered in playlist!');
 			  }, function(err) {
 			    console.log('Something went wrong!', err);
-			  });
+			  });*/
 
 			  msgs.splice(newindex, 0, msgs.splice(index, 1)[0]);
 

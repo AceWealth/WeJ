@@ -1,5 +1,8 @@
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: Arial, Sans-Serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font: Arial, Sans-Serif;
+  overflow: hidden; 
+}
 /*      body {
     background:hsla(207, 5%, 5%, 1);
     overflow: hidden;
@@ -121,7 +124,7 @@ header {
 /*Start list styles*/
 
 #container {
-  width: 400px;
+  width: 100%;
   margin: 0 auto;
   z-index: 5;
   background: rgba(0,0,0,.5);
@@ -177,7 +180,7 @@ ul {
   margin: 7px 0 0 0;
   padding-left: 15px;
 }
-  .vote-ul {
+  .voteUl {
     float: right;
     margin-top: 0;
   }
@@ -192,6 +195,9 @@ ul {
       .vote:hover {
         background-color: #F5F5F5;
       }
+        .voted {
+          background-color: #616161;
+        }
 
     h5{
       float: right;
