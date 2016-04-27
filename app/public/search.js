@@ -61,7 +61,7 @@ var searchFormatted = [];
           searchFormatted.forEach(function(element) {
             searchAppend += '<div class="song-listing elem-inline">';
             searchAppend += '<img class="elem-inline" src="' + element.image + '" />';
-            searchAppend += '<ul>';
+            searchAppend += '<ul class="song-info">';
             searchAppend += '<li class="track">' + element.name + '</li>';
             searchAppend += '<li class="artist">' + element.artist + '</li>';
             searchAppend += '</ul>';

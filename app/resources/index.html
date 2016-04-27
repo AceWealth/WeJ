@@ -10,38 +10,23 @@
   </head>
 
 <body>
-<div id="grid">
-<div id="page">
+<div id="grid"></div>
 <script src="/public/background.js"></script>
+<div id="page">
   <header>
-    <h1>WeJ Party Page</h1>
+    <h1>WeJ Home</h1>
   </header>
     <br>
-    <div id="wrapper">
+    <div id="wrapper-home">
+      <div id="content">
+        <h3>Welcome to WeJ...where everyone's the DJ!</h3>
 
-    <div id="songs">
-      <div id="search">
-      <form action="https://api.spotify.com/v1/search" method="get" enctype="application/x-www-form-urlencoded" id="form-ajax">
-        <input type="text" name="q" id="searchField" placeholder="Enter a song to search" autocomplete="off">
-        <button type="submit" id="searchButton">
-          Search
-        </button>
-      </form>
+        <a href="/party">Join the party!</a>
+        <br>
+        <a id="slogin" href="/login">Login with Spotify!</a>
+        <br>
+        <p id="creator">Created by Patrick Edelen</p>
       </div>
-      <br>
-      <div id="">
-        <h4>Current Queue</h4>
-      </div>
-      <div id="songs-container">
-      </div>
-      
-    </div>
-    <div id="container">
-      <h2 id="sr">Search Results</h2>
-      <button id="exit">exit</button>
-      <div id="search-results">
-      </div>
-    </div>
   </div>
 </div>
 

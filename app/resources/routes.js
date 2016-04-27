@@ -49,6 +49,10 @@ module.exports = function(app, io, tokens) {
 	  redirectUri : tokens.getRed
 	});
 
+	app.get('/', function(req, res) {
+		res.sendFile(__dirname + '/index.html');
+	});
+
 	app.get('/passed', function(req, res) {
 		console.log('User login passed, clearing array');
 		msgs.length = 0;
@@ -59,7 +63,7 @@ module.exports = function(app, io, tokens) {
 	app.get('/party', function(req, res) {
 		spotifyApi.setAccessToken(tokens.getAccess());
 		//console.log('Inside routes: ' + tokens.getAccess());
-		res.sendFile(__dirname + '/index.html');
+		res.sendFile(__dirname + '/party.html');
 	});
 
 	io.on('connection', function(socket) {

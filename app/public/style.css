@@ -5,7 +5,6 @@
 
 body { 
   font: Arial, Sans-Serif;
-  overflow: hidden; 
 }
 
 /* background */
@@ -64,29 +63,75 @@ body {
 /*start header*/
 header {
   width: 100%;
-  height: 80px;
+  height: 60px;
   background: #FAFAFA;
   box-shadow: 0px 3px 15px #212121;
-  padding: 20px;
+  padding: 12px 0 0 20px;
 }
   h1 {
     font-family: Arial, Sans-Serif;
   }
 /*end header*/
 
-#wrapper{
+/*Start home styles*/
+#wrapper-home{
   width: 100%;
   padding: 15px;
+  background: rgba(0,0,0,.5);
+}
+#content {
+  background-color: #EEEEEE;
+  padding: 7px;
+  border-radius: 3px;
+  text-align: center;
+  min-height: 400px;
+}
+h3 {
+  font-family: Arial, Sans-Serif;
+  font-size: 1.6em;
+  margin-bottom: 30px;
+}
+a {
+  font-family: Arial, Sans-Serif;
+  text-decoration: none;
+  font-size: 1.3em;
+  background: #9E9E9E;
+  padding: 8px;
+  border-radius: 9px;
+  display: inline-block;
+  margin: 3px;
+}
+  a:hover{
+    color: initial;
+    background-color: #BDBDBD;
+  }
+  a:visited {
+    color: initial;
+  }
+  #slogin {
+    color:  #1ED760;
+  }
+
+#creator {
+  font-family: Arial, Sans-Serif;
+  font-size: .8em;
+  position: absolute;
+  bottom: 20px;
 }
 
-/*Start song list styles*/
+/*end home styles*/
 
+/*Start song list styles*/
+#wrapper{
+  width: 100%;
+  padding: 15px;;
+}
 #songs {
   width: 100%;
   margin: 0 auto;
   z-index: 3;
-  background: rgba(0,0,0,.5);
   padding: 15px;
+  background: rgba(0,0,0,.5);
 }
   h2 {
     font-family: Arial, Sans-Serif;
@@ -119,6 +164,7 @@ header {
   font-size: 1.4em;
   width: 25%;
   float: right;
+  overflow: hidden;
 }
 
 
@@ -132,6 +178,7 @@ header {
   z-index: 5;
   background: rgba(0,0,0,.5);
   padding: 15px;
+  min-height: 100px;
 }
 #form-response {
   z-index: 5;
@@ -183,9 +230,15 @@ ul {
   margin: 7px 0 0 0;
   padding-left: 15px;
 }
+  .song-info {
+    width: 60%;
+  }
   .voteUl {
     float: right;
     margin-top: 0;
+    width: 10%;
+    text-align: center;
+    padding: 0 2px 0 10px;
   }
     .vote {
       font-family: Arial, Sans-Serif;
@@ -207,6 +260,8 @@ ul {
       font-family: Arial, Sans-Serif;
       font-size: 2em;
       margin-top: 15px;
+      width: 5%;
+      text-align: center;
     }
 
 li {
@@ -217,6 +272,8 @@ li {
 
 .track {
   font-size: 1.1em;
+  overflow: hidden;
+  height: 26px;
 }
 
 .artist {
@@ -244,4 +301,3 @@ img {
 .add:hover {
   background-color: #F5F5F5;
 }
-/*end list styles*/

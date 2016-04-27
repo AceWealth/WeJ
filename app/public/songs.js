@@ -88,7 +88,7 @@ socket.on('song add', function(msg) {
 
   singleAppend += '<div class="song-listing elem-inline">';
   singleAppend += '<img class="elem-inline" src="' + msg.image + '" />';
-  singleAppend += '<ul>';
+  singleAppend += '<ul class="song-info">';
   singleAppend += '<li class="track">' + msg.name + '</li>';
   singleAppend += '<li class="artist">' + msg.artist + '</li>';
   singleAppend += '</ul>';
@@ -111,7 +111,7 @@ socket.on('join socket', function(msgs) {
     msgs.forEach(function(element) {
   songsAppend += '<div class="song-listing elem-inline">';
   songsAppend += '<img class="elem-inline" src="' + element.image + '" />';
-  songsAppend += '<ul>';
+  songsAppend += '<ul class="song-info">';
   songsAppend += '<li class="track">' + element.name + '</li>';
   songsAppend += '<li class="artist">' + element.artist + '</li>';
   songsAppend += '</ul>';
