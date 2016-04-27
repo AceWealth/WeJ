@@ -23,12 +23,10 @@ var searchFormatted = [];
       $('#container').css("display","");
       $('#songs').css("display","none");
 
-      console.log(form);
 
       // Serialize the form data.
       var formData = $(form).serialize();
       formData += '&type=track&limit=5';
-      console.log(formData);
 
       // Submit the form using AJAX.
       $.ajax({
@@ -48,7 +46,6 @@ var searchFormatted = [];
           //loop through tracks
           returnedTracks = response.tracks.items;
           returnedTracks.forEach(function(element) {
-            console.log(element);
             searchFormatted.push({
               name: element.name,
               artist: element.artists[0].name,
@@ -70,11 +67,6 @@ var searchFormatted = [];
             searchAppend += '</ul>';
             searchAppend += '<button class="add" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >Add to Queue</button>';
             searchAppend += '</div>';
-
-            console.log(element.name);
-            console.log(element.artist);
-            console.log(element.image);
-            console.log(element.uri);
           });
 
           $(formMessages).append(searchAppend);

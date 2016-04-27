@@ -1,9 +1,9 @@
 //JS to create random color grid
 
-var grid = $('#page');
+var grid = $('#grid');
 var s = 50;  //space between blocks
 var n = 5;  //shadow range (space between shadow waves)
-var l = 40;  //grid length
+var l = 18;  //grid length
 //random colors 
 var rndCol = function() {
     return Math.ceil(Math.random() * 225+30);
