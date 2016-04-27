@@ -1,36 +1,3 @@
-	        //var userId = ''; 
-	        //var options = {
-	        //   url: 'https://api.spotify.com/v1/me',
-	        //   headers: { 'Authorization': 'Bearer ' + access_token },
-	        //   json: true
-	        // };
-
-	        // // use the access token to access the Spotify Web API
-	        // request.get(options, function(error, response, body) {
-	        //   console.log(body);  
-	        //   userId = body.id;
-	        //   var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
-
-	        //   //get a list of playlists
-	        //   var playlistReq = {
-	        //     url: 'https://api.spotify.com/v1/users/' + userId + '/playlists/' + playlistId + '/tracks',
-	        //     headers: { 'Authorization': 'Bearer ' + access_token },
-	        //     form: {
-	        //       uris: ['spotify:track:4iV5W9uYEdYUVa79Axb7Rh']
-	        //     },
-	        //     json: true
-	        //   };
-	        //   spotifyApi.addTracksToPlaylist(userId, playlistId, ["spotify:track:5kqIPrATaCc2LqxVWzQGbk", ""])
-	        //   .then(function(data) {
-	        //     console.log(data);
-	        //   }, function(err) {
-	        //     console.log(err);
-	        //   });
-	        // });
-
-
-
-
 //spotify api decleration
 var SpotifyWebApi = require('spotify-web-api-node');
 
@@ -84,14 +51,26 @@ module.exports = function(app, io, tokens) {
 	    console.log('Added song ' + msg.name);
 
 	    //disabled for development
-	    /*spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
+	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log('Added song to playlist');
           }, function(err) {
           	console.log('User id: ' + tokens.getuId());
           	console.log('Playlist id: ' + tokens.getpId());
             console.log(err);
-        });*/
+
+            //try to get the new access token
+            tokens.refresh(function() {
+            	spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
+			    .then(function(data) {
+		            console.log('Added song to playlist');
+		          }, function(err) {
+		          	console.log('Still did not work');
+		            console.log(err);
+		        });
+            });
+            
+        });
 
 	    io.emit('song add', msg);
 	  });
@@ -128,12 +107,22 @@ module.exports = function(app, io, tokens) {
 	  		console.log('Switching songs around');
 
 	  		//disabled for development
-	  		/*spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
+	  		spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
 			  .then(function(data) {
 			    console.log('Tracks reordered in playlist!');
 			  }, function(err) {
 			    console.log('Something went wrong!', err);
-			  });*/
+
+			    //request new access token
+			    tokens.refresh(function() {
+			    	spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
+				  .then(function(data) {
+				    console.log('Tracks reordered in playlist!');
+				  }, function(err) {
+				    console.log('Still did not work', err);
+				  });
+			    });
+			  });
 
 			  msgs.splice(newindex, 0, msgs.splice(index, 1)[0]);
 

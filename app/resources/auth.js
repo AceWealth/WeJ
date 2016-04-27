@@ -158,7 +158,7 @@ module.exports = function(app, tokens) {
 	tokens.getpId = function() {
 		return playlist_Id;
 	}
-	tokens.refresh = function() {
+	tokens.refresh = function(_callback) {
 		var authOptions = {
 		    url: 'https://accounts.spotify.com/api/token',
 		    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
@@ -172,9 +172,10 @@ module.exports = function(app, tokens) {
 		request.post(authOptions, function(error, response, body) {
 			if (!error && response.statusCode === 200) {
 			  accessToken = body.access_token;
-			}
-			if(body.refresh_token){
-				refreshToken = body.refresh_token;
+			  	if(body.refresh_token){
+					refreshToken = body.refresh_token;
+				}
+				_callback();
 			}
 		});
 
