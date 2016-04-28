@@ -61,6 +61,8 @@ module.exports = function(app, io, tokens) {
 
             //try to get the new access token
             tokens.refresh(function() {
+            	//refreshes access token and sets the API to that token
+            	spotifyApi.setAccessToken(tokens.getAccess());
             	spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 			    .then(function(data) {
 		            console.log('Added song to playlist');
@@ -115,6 +117,8 @@ module.exports = function(app, io, tokens) {
 
 			    //request new access token
 			    tokens.refresh(function() {
+			    	//refreshes access token and sets the API to that token
+			    	spotifyApi.setAccessToken(tokens.getAccess());
 			    	spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
 				  .then(function(data) {
 				    console.log('Tracks reordered in playlist!');
