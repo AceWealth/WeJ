@@ -6,7 +6,7 @@ Login with Spotify and navigate your Spotify desktop player or mobile app to the
 
 *note* Logging in with Spotify deletes the current playlist and logs the last user out of the app
 
-### Monitization
+### Monetization
 * Allow access to other music providers (SoundCloud, Google Play, etc.)
 * iPhone / Android app $ .99
 * Limit users in a party for free members, unlimited/100/500? for upgraded parties
