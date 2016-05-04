@@ -2,22 +2,24 @@
   margin: 0; padding: 0;
   box-sizing: border-box;
 }
-
+html {
+  overflow-x: hidden;
+}
 body { 
-  font: Arial, Sans-Serif;
+  font-family: Arial, Sans-Serif;
 }
 
 /* background */
 body {
     background:hsla(207, 5%, 5%, 1);
-    overflow: hidden;
+    height: 100%;
     width:100%;
     
 }
 
 #grid {
     margin: .5em;
-    position: relative;
+    position: fixed;
     width:100%;
 }
 .block {
@@ -92,6 +94,11 @@ h3 {
   font-size: 1.6em;
   margin-bottom: 30px;
 }
+#slogan{
+  font-family: Arial, Sans-Serif;
+  font-size: 1.4em;
+  margin-bottom: 30px;
+}
 a {
   font-family: Arial, Sans-Serif;
   text-decoration: none;
@@ -106,11 +113,11 @@ a {
     color: initial;
     background-color: #BDBDBD;
   }
-  a:visited {
+  a:visited, a:link, a:active {
     color: initial;
   }
   #slogin {
-    color:  #1ED760;
+    background-color:  #1ED760;
   }
 
 #creator {
@@ -125,7 +132,7 @@ a {
 /*Start song list styles*/
 #wrapper{
   width: 100%;
-  padding: 15px;;
+  padding: 7px 7px 7px 14px;
 }
 #songs {
   width: 100%;
@@ -210,6 +217,7 @@ a {
   height: 80px;
   padding: 7px;
   border-radius: 3px;
+  position: relative;
 }
   #songs-title{
   display: inline-block;
@@ -228,18 +236,21 @@ a {
 
 ul {
   float: left;
-  margin: 7px 0 0 0;
   padding-left: 15px;
 }
+  #search-results .song-listing {
+    margin-top: 7px;
+  }
   .song-info {
     width: 60%;
+    position: relative;
+    z-index: 9;
   }
   .voteUl {
-    float: right;
     margin-top: 0;
-    width: 10%;
     text-align: center;
-    padding: 0 2px 0 10px;
+    position: absolute;
+    right: 10px;
   }
     .vote {
       font-family: Arial, Sans-Serif;
@@ -257,12 +268,12 @@ ul {
         }
 
     h5{
-      float: right;
       font-family: Arial, Sans-Serif;
       font-size: 2em;
-      margin-top: 15px;
-      width: 5%;
       text-align: center;
+      position: absolute;
+      right: 35px;
+      top: 24px;
     }
 
 li {
@@ -275,10 +286,15 @@ li {
   font-size: 1.1em;
   overflow: hidden;
   height: 26px;
+  position: absolute;
 }
 
 .artist {
   font-size: 1em;
+  height: 25px;
+  position: absolute;
+  overflow: hidden;
+  top: 25px;
 }
 
 img {
@@ -292,11 +308,12 @@ img {
 .add {
   float: right;
   height: 50px;
-  margin-top: 7px;
   padding: 3px;
   background-color: #FAFAFA;
   border: 1px solid #E0E0E0;
   border-radius: 3px;
+  position: relative;
+  z-index: 10;
 }
 
 .add:hover {
