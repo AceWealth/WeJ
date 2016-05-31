@@ -1,8 +1,9 @@
 //////////////////////
 //BEGIN SOCKET.IO JS
 //////////////////////
+var room = '/' + window.location.pathname.split('&')[1];
 
-var socket = io();
+var socket = io( room );
 $("#search-results").delegate(".add", "click", function(){
   $('#container').css("display","none");
   $('#songs').css("display","");
