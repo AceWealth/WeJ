@@ -11,6 +11,6 @@ require('./resources/auth.js')(app, tokens);
 
 require('./resources/routes.js')(app, io, tokens);
 
-http.listen(9999, function() {
-	console.log('Server active on port 9999');
+http.listen(8787, function() {
+	console.log('Server active on port 8787');
 });

@@ -94,7 +94,7 @@ module.exports = function(app, tokens) {
 
 	        spotifyApi.setAccessToken(tokens.getAccess());
 
-	        console.log(body.access_token);
+	        console.log(body.access_token + ' expires in ' + body.expires_in);
 	        var userOptions = {
 	          url: 'https://api.spotify.com/v1/me',
 	          headers: { 'Authorization': 'Bearer ' + accessToken }

@@ -105,8 +105,6 @@ module.exports = function(app, io, tokens) {
 	  		}
 	  	}
 
-	  	//need to add downvote switching here
-
 	  	if(switching){
 	  		console.log('Switching songs around');
 
