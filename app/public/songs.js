@@ -1,9 +1,8 @@
 //////////////////////
 //BEGIN SOCKET.IO JS
 //////////////////////
-var room = '/' + window.location.pathname.split('&')[1];
 
-var socket = io( room );
+var socket = io();
 $("#search-results").delegate(".add", "click", function(){
   $('#container').css("display","none");
   $('#songs').css("display","");
@@ -126,4 +125,25 @@ socket.on('join socket', function(msgs) {
 
     $("#songs-container").html(songsAppend);
 
+});
+
+socket.on('song play', function(msg) {
+  console.log('Message ' + msg.name);
+
+  var playAppend = '<br>';
+
+  playAppend += '<div class="song-listing elem-inline">';
+  playAppend += '<img class="elem-inline" src="' + msg.image + '" />';
+  playAppend += '<ul class="song-info">';
+  playAppend += '<li class="track">' + msg.name + '</li>';
+  playAppend += '<li class="artist">' + msg.artist + '</li>';
+  playAppend += '</ul>';
+  playAppend += '<ul class="voteUl">';
+  playAppend += '<li><button class="vote vote-up" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&and;</button></li>';
+  playAppend += '<li><button class="vote vote-down" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&or;</button></li>';
+  playAppend += '</ul>';
+  playAppend += '<h5 id="' + msg.uri + '">0</h5>';
+  playAppend += '</div>';
+
+  $("#current-song").append(playAppend);
 });

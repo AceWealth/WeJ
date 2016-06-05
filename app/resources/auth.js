@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var SpotifyWebApi = require('spotify-web-api-node');
 
 	var client_id = 'd1033531311a43b38b3cedbd9b363367'; // Your client id
-	var client_secret = '*'; // Your client secret, REDACTED FOR SECURITY
+	var client_secret = 'd25b68ad8fd8495e9ae886f70c5bfde4'; // Your client secret, REDACTED FOR SECURITY
 	var redirect_uri = 'http://wej.pedelen.com/callback'; // Your redirect uri
 
 	var spotifyApi = new SpotifyWebApi({

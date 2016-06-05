@@ -6,8 +6,6 @@ var n = 5;  //shadow range (space between shadow waves)
 var l = 18;  //grid length
 var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 var x = Math.floor(width / 50);
-
-console.log('width: ' + width + ' and x: ' + x);
 //random colors 
 var rndCol = function() {
     return Math.ceil(Math.random() * 225+30);

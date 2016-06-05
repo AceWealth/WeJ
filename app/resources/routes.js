@@ -5,8 +5,14 @@ var SpotifyWebApi = require('spotify-web-api-node');
 //variable to store messages
 var msgs = [];
 
+var currentSong = {};
+
 //Playlist id, will not be static later
 //var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
+
+var updatePlaying = function() {
+
+}
 
 module.exports = function(app, io, tokens) {
 
@@ -41,13 +47,23 @@ module.exports = function(app, io, tokens) {
 
 
 	  socket.on('song add', function(msg) {
-	    msgs.push({
+	  	spotifyApi.getTrack(msg.uri)
+	  	.then(function(data){
+	  		msgs.push({
 	    	name: msg.name,
 	    	artist: msg.artist,
 	    	image: msg.image,
 	    	uri: msg.uri,
-	    	score: 0
-	    });
+	    	time: data.duration_ms,
+	    	score: 0,
+	    	});
+	  		if(currentSong == null){
+	  			currentSong
+	  		}
+	  	}, function(err){
+	  		console.log(err);
+	  	});
+	    
 	    console.log('Added song ' + msg.name);
 
 	    //disabled for development
