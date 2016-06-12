@@ -10,6 +10,8 @@ var currentSong = {};
 //Playlist id, will not be static later
 //var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
 
+//should be able to use stacks to control the current song queue
+
 var updatePlaying = function() {
 
 }
@@ -59,7 +61,7 @@ module.exports = function(app, io, tokens) {
 	    	});
 	  		if(currentSong == null){
 	  			currentSong
-	  		}
+	  		} else
 	  	}, function(err){
 	  		console.log(err);
 	  	});
