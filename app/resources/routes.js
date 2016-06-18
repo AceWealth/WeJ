@@ -5,14 +5,32 @@ var SpotifyWebApi = require('spotify-web-api-node');
 //variable to store messages
 var msgs = [];
 
+//variables for song queues
 var currentSong = {};
+var queue = [];
+var played = [];
 
 //Playlist id, will not be static later
 //var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
 
 //should be able to use stacks to control the current song queue
 
+//updates the currentsong variable and removes it from the queue list
 var updatePlaying = function() {
+	if(currentSong == null){
+		currentSong = queue[0];
+		setTimeout(updatePlaying(), queue[0].time);
+	} else {
+		played.push(currentSong);
+		queue.shift();
+		if(queue.length === 0){
+			currentSong = null;
+		} else {
+			currentSong = queue[0];
+			setTimeout(updatePlaying(), queue[0].time);
+		}
+	}
+
 
 }
 
@@ -51,6 +69,7 @@ module.exports = function(app, io, tokens) {
 	  socket.on('song add', function(msg) {
 	  	spotifyApi.getTrack(msg.uri)
 	  	.then(function(data){
+	  		//add the song to the msgs variable for display on the front-end
 	  		msgs.push({
 	    	name: msg.name,
 	    	artist: msg.artist,
@@ -59,12 +78,20 @@ module.exports = function(app, io, tokens) {
 	    	time: data.duration_ms,
 	    	score: 0,
 	    	});
+	    	//add the song to the queue for voting and playlist interaction
+	  		queue.push({
+	  			uri: msg.uri,
+	  			time: data.duration_ms,
+	  			score: 0
+	  		});
+
 	  		if(currentSong == null){
-	  			currentSong
-	  		} else
+	  			updatePlaying();
+	  		} 
+
 	  	}, function(err){
 	  		console.log(err);
-	  	});
+	  	};
 	    
 	    console.log('Added song ' + msg.name);
 
