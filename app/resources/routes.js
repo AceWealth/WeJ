@@ -10,9 +10,6 @@ var currentSong = {};
 var queue = [];
 var played = [];
 
-//Playlist id, will not be static later
-//var playlistId = '5LlGzhzxGrjoG3YR2KWBmd';
-
 //should be able to use stacks to control the current song queue
 
 //updates the currentsong variable and removes it from the queue list

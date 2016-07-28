@@ -1,6 +1,6 @@
 {
   "name": "wej-spotify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Everyone is the DJ",
   "dependencies": {
     "cookie-parser": "^1.4.1",

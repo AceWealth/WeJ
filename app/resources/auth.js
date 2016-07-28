@@ -4,9 +4,9 @@ var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var SpotifyWebApi = require('spotify-web-api-node');
 
-	var client_id = 'd1033531311a43b38b3cedbd9b363367'; // Your client id
-	var client_secret = 'd25b68ad8fd8495e9ae886f70c5bfde4'; // Your client secret, REDACTED FOR SECURITY
-	var redirect_uri = 'http://wej.pedelen.com/callback'; // Your redirect uri
+	var client_id = 'dc9796a5c68149209d7ad192d0ca518d'; // Your client id
+	var client_secret = '045430f627df4605903dd686f609c5a1'; // Your client secret
+	var redirect_uri = 'http://localhost:8787/callback'; // Your redirect uri
 
 	var spotifyApi = new SpotifyWebApi({
 	  clientId : client_id,
