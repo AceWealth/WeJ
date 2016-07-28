@@ -1,12 +1,16 @@
 //spotify api decleration
 var SpotifyWebApi = require('spotify-web-api-node');
+var schedule = require('node-schedule');
 
+//event emitter
+var events = require('events');
+var myEmitter = new events.EventEmitter();
 
 //variable to store messages
 var msgs = [];
 
 //variables for song queues
-var currentSong = {};
+var playing = false;
 var queue = [];
 var played = [];
 
@@ -30,6 +34,26 @@ var updatePlaying = function() {
 
 
 }
+myEmitter.on('addSong', function(song) {
+	console.log('evented song added ' + song.name);
+	if(!playing) {
+		myEmitter.emit('playSong', song);
+	}
+
+})
+
+myEmitter.on('playSong', function(song) {
+	console.log('Playing song, will update when over');
+	console.log(song);
+
+	var songOver = new Date();
+	songOver.setMilliseconds(songOver.getMilliseconds() + song.time);
+
+	var j = schedule.scheduleJob(songOver, function(){
+		console.log('Song is now over!');
+	});
+
+});
 
 module.exports = function(app, io, tokens) {
 
@@ -64,31 +88,28 @@ module.exports = function(app, io, tokens) {
 
 
 	  socket.on('song add', function(msg) {
-	  	spotifyApi.getTrack(msg.uri)
+		var trackId = msg.uri.split(':')[2];
+	  	spotifyApi.getTrack(trackId)
 	  	.then(function(data){
 	  		//add the song to the msgs variable for display on the front-end
-	  		msgs.push({
+			  console.log(data);
+			var newSong = {
 	    	name: msg.name,
 	    	artist: msg.artist,
 	    	image: msg.image,
 	    	uri: msg.uri,
-	    	time: data.duration_ms,
+	    	time: data.body.duration_ms,
 	    	score: 0,
-	    	});
-	    	//add the song to the queue for voting and playlist interaction
-	  		queue.push({
-	  			uri: msg.uri,
-	  			time: data.duration_ms,
-	  			score: 0
-	  		});
+	    	};
+	  		msgs.push(newSong);
 
-	  		if(currentSong == null){
-	  			updatePlaying();
-	  		} 
+		  	myEmitter.emit('addSong', newSong);
 
 	  	}, function(err){
+			console.log('errored at add song');
 	  		console.log(err);
-	  	};
+			console.log(data);
+	  	});
 	    
 	    console.log('Added song ' + msg.name);
 
@@ -122,7 +143,7 @@ module.exports = function(app, io, tokens) {
 
 
 	  socket.on('vote', function(vote) {
-	  	index = msgs.map(function(element) { return element.name }).indexOf(vote.name);
+	  	var index = msgs.map(function(element) { return element.name }).indexOf(vote.name);
 	  	oldscore = msgs[index].score;
 	  	newscore = oldscore + vote.vote;
 	  	msgs[index].score = newscore;

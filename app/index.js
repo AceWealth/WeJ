@@ -5,7 +5,7 @@ var io = require('socket.io')(http);
 var tokens = [];
 
 //set the static route
-app.use('/public', express.static('public'));
+app.use('/public', express.static(__dirname + '/public'));
 
 require('./resources/auth.js')(app, tokens);
 
