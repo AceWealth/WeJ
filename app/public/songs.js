@@ -130,6 +130,8 @@ socket.on('join socket', function(msgs) {
 socket.on('song play', function(msg) {
   console.log('Message ' + msg.name);
 
+  console.log('Playing a song');
+
   var playAppend = '<br>';
 
   playAppend += '<div class="song-listing elem-inline">';

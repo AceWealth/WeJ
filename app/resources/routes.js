@@ -42,6 +42,11 @@ myEmitter.on('addSong', function(song) {
 
 })
 
+myEmitter.on('playNextSong', function() {
+	console.log('Playing next song...');
+	myEmitter.emit('playSong', msgs[0]);
+});
+
 myEmitter.on('playSong', function(song) {
 	console.log('Playing song, will update when over');
 	console.log(song);
@@ -50,7 +55,9 @@ myEmitter.on('playSong', function(song) {
 	songOver.setMilliseconds(songOver.getMilliseconds() + song.time);
 
 	var j = schedule.scheduleJob(songOver, function(){
+		msgs.shift();
 		console.log('Song is now over!');
+		myEmitter.emit('playNextSong');
 	});
 
 });
@@ -205,6 +212,10 @@ module.exports = function(app, io, tokens) {
 	  	}
 
 	  });
+
+	  myEmitter.on('playSong', function(song) {
+		  io.emit('song play', song);
+	  })
 
 	});//end socket
 
