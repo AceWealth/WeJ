@@ -16,3 +16,7 @@ Login with Spotify and navigate your Spotify desktop player or mobile app to the
 * Only have one song on the playlist at any time, prevents user from skipping ahead
 * Delete songs from the playlist through the WebAPI when a user skips in the webapp
 * Use last.fm (http://www.last.fm/api/show/user.getRecentTracks) to get recent tracks
+
+
+### Relaese Infrastructure
+* Releasing DryDriver through Dokku to AWS
