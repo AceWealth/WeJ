@@ -128,7 +128,7 @@ socket.on('join socket', function(msgs) {
 });
 
 socket.on('song play', function(msg) {
-  console.log('Message ' + msg.name);
+  console.log('Song playing message ' + msg.name);
 
   console.log('Playing a song');
 
