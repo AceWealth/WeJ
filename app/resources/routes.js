@@ -44,7 +44,11 @@ myEmitter.on('addSong', function(song) {
 
 myEmitter.on('playNextSong', function() {
 	console.log('Playing next song...');
-	myEmitter.emit('playSong', msgs[0]);
+	if(msgs[0]){
+		myEmitter.emit('playSong', msgs[0]);
+	} else {
+		console.log('Playlist empty, waiting for next song');
+	}
 });
 
 myEmitter.on('playSong', function(song) {
@@ -121,6 +125,7 @@ module.exports = function(app, io, tokens) {
 	    console.log('Added song ' + msg.name);
 
 	    //disabled for development
+		/*
 	    spotifyApi.addTracksToPlaylist(tokens.getuId(), tokens.getpId(), [msg.uri, ""])
 	    .then(function(data) {
             console.log('Added song to playlist');
@@ -142,7 +147,7 @@ module.exports = function(app, io, tokens) {
 		        });
             });
             
-        });
+        });*/
 
 	    io.emit('song add', msg);
 	  });
@@ -179,6 +184,7 @@ module.exports = function(app, io, tokens) {
 	  		console.log('Switching songs around');
 
 	  		//disabled for development
+			/*
 	  		spotifyApi.reorderTracksInPlaylist(tokens.getuId(), tokens.getpId(), index, newindex)
 			  .then(function(data) {
 			    console.log('Tracks reordered in playlist!');
@@ -196,7 +202,7 @@ module.exports = function(app, io, tokens) {
 				    console.log('Still did not work', err);
 				  });
 			    });
-			  });
+			  });*/
 
 			  msgs.splice(newindex, 0, msgs.splice(index, 1)[0]);
 
