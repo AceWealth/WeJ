@@ -132,6 +132,8 @@ socket.on('song play', function(msg) {
 
   console.log('Playing a song');
 
+  $("#current-song").empty();
+
   var playAppend = '<br>';
 
   playAppend += '<div class="song-listing elem-inline">';
