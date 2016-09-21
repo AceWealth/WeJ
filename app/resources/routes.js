@@ -38,6 +38,7 @@ myEmitter.on('addSong', function(song) {
 	console.log('evented song added ' + song.name);
 	if(!playing) {
 		myEmitter.emit('playSong', song);
+		playing = true;
 	}
 
 })
@@ -48,6 +49,7 @@ myEmitter.on('playNextSong', function() {
 		myEmitter.emit('playSong', msgs[0]);
 	} else {
 		console.log('Playlist empty, waiting for next song');
+		playing = false;
 	}
 });
 
