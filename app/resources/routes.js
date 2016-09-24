@@ -13,6 +13,7 @@ var msgs = [];
 var playing = false;
 var queue = [];
 var played = [];
+var curSong;
 
 //should be able to use stacks to control the current song queue
 
@@ -57,6 +58,8 @@ myEmitter.on('playSong', function(song) {
 	console.log('Playing song, will update when over');
 	console.log(song);
 
+	curSong = song;
+
 	var songOver = new Date();
 	songOver.setMilliseconds(songOver.getMilliseconds() + song.time);
 
@@ -98,6 +101,8 @@ module.exports = function(app, io, tokens) {
 	  console.log('user connected ' + socket.id);
 	  //send all songs to the new connection
 	  socket.emit('join socket', msgs);
+
+	  //socket.emit('song play', curSong);
 
 
 	  socket.on('song add', function(msg) {

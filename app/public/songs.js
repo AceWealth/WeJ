@@ -109,19 +109,21 @@ socket.on('join socket', function(msgs) {
     var songsAppend = '<br>';
 
     msgs.forEach(function(element) {
-  songsAppend += '<div class="song-listing elem-inline">';
-  songsAppend += '<img class="elem-inline" src="' + element.image + '" />';
-  songsAppend += '<ul class="song-info">';
-  songsAppend += '<li class="track">' + element.name + '</li>';
-  songsAppend += '<li class="artist">' + element.artist + '</li>';
-  songsAppend += '</ul>';
-  songsAppend += '<ul class="voteUl">';
-  songsAppend += '<li><button class="vote vote-up" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&and;</button></li>';
-  songsAppend += '<li><button class="vote vote-down" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&or;</button></li>';
-  songsAppend += '</ul>';
-  songsAppend += '<h5 id="' + element.uri + '">' + element.score + '</h5>';
-  songsAppend += '</div>';
-    });
+      if(element.score < 500){
+        songsAppend += '<div class="song-listing elem-inline">';
+        songsAppend += '<img class="elem-inline" src="' + element.image + '" />';
+        songsAppend += '<ul class="song-info">';
+        songsAppend += '<li class="track">' + element.name + '</li>';
+        songsAppend += '<li class="artist">' + element.artist + '</li>';
+        songsAppend += '</ul>';
+        songsAppend += '<ul class="voteUl">';
+        songsAppend += '<li><button class="vote vote-up" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&and;</button></li>';
+        songsAppend += '<li><button class="vote vote-down" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&or;</button></li>';
+        songsAppend += '</ul>';
+        songsAppend += '<h5 id="' + element.uri + '">' + element.score + '</h5>';
+        songsAppend += '</div>';
+      }  
+  });
 
     $("#songs-container").html(songsAppend);
 
