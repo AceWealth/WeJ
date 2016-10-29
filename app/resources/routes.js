@@ -48,6 +48,8 @@ myEmitter.on('playNextSong', function() {
 	console.log('Playing next song...');
 	if(msgs[0]){
 		myEmitter.emit('playSong', msgs[0]);
+
+		console.log('Next song played is ' + msgs[0].name);
 	} else {
 		console.log('Playlist empty, waiting for next song');
 		playing = false;
