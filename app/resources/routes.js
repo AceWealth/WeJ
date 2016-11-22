@@ -32,9 +32,9 @@ var updatePlaying = function() {
 			setTimeout(updatePlaying(), queue[0].time);
 		}
 	}
-
-
 }
+
+
 myEmitter.on('addSong', function(song) {
 	console.log('evented song added ' + song.name);
 	if(!playing) {
@@ -120,6 +120,7 @@ module.exports = function(app, io, tokens) {
 	    	uri: msg.uri,
 	    	time: data.body.duration_ms,
 	    	score: 0,
+			played: false
 	    	};
 	  		msgs.push(newSong);
 
