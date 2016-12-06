@@ -7,7 +7,7 @@ var events = require('events');
 var myEmitter = new events.EventEmitter();
 
 //variable to store messages
-var msgs = [];
+var msgs = {};
 
 //variables for song queues
 var playing = false;
@@ -46,13 +46,14 @@ myEmitter.on('addSong', function(song) {
 
 myEmitter.on('playNextSong', function() {
 	console.log('Playing next song...');
-	if(msgs[0]){
-		myEmitter.emit('playSong', msgs[0]);
-
-		console.log('Next song played is ' + msgs[0].name);
-	} else {
-		console.log('Playlist empty, waiting for next song');
-		playing = false;
+	for(var key in msgs) {
+		if(msgs.hasOwnProperty(key)) {
+			if(!msgs[key].played) {
+				myEmitter.emit('playSong', msgs[key]);
+				console.log('Next song played is ' + msgs[key].name);
+				break;
+			}
+		}
 	}
 });
 
@@ -62,11 +63,14 @@ myEmitter.on('playSong', function(song) {
 
 	curSong = song;
 
+	msgs[song.key].score = 500;
+	msgs[song.key].played = true;
+
+
 	var songOver = new Date();
 	songOver.setMilliseconds(songOver.getMilliseconds() + song.time);
 
 	var j = schedule.scheduleJob(songOver, function(){
-		msgs.shift();
 		console.log('Song is now over!');
 		myEmitter.emit('playNextSong');
 	});
@@ -103,6 +107,9 @@ module.exports = function(app, io, tokens) {
 	  console.log('user connected ' + socket.id);
 	  //send all songs to the new connection
 	  socket.emit('join socket', msgs);
+	  if(playing) {
+		  socket.emit('song play', curSong);
+	  }
 
 	  //socket.emit('song play', curSong);
 
@@ -113,7 +120,9 @@ module.exports = function(app, io, tokens) {
 	  	.then(function(data){
 	  		//add the song to the msgs variable for display on the front-end
 			  console.log(data);
+			var addTime = new Date();
 			var newSong = {
+			key: addTime,
 	    	name: msg.name,
 	    	artist: msg.artist,
 	    	image: msg.image,
@@ -122,7 +131,7 @@ module.exports = function(app, io, tokens) {
 	    	score: 0,
 			played: false
 	    	};
-	  		msgs.push(newSong);
+	  		msgs[addTime] = newSong;
 
 		  	myEmitter.emit('addSong', newSong);
 

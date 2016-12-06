@@ -85,18 +85,19 @@ socket.on('song add', function(msg) {
   console.log('Message ' + msg.name);
 
   var singleAppend = '<br>';
+  var songId = msg.uri.split(':')[2];
 
-  singleAppend += '<div class="song-listing elem-inline">';
+  singleAppend += '<div id="' + songId + '" class="song-listing elem-inline">';
   singleAppend += '<img class="elem-inline" src="' + msg.image + '" />';
   singleAppend += '<ul class="song-info">';
   singleAppend += '<li class="track">' + msg.name + '</li>';
   singleAppend += '<li class="artist">' + msg.artist + '</li>';
   singleAppend += '</ul>';
-  singleAppend += '<ul class="voteUl">';
-  singleAppend += '<li><button class="vote vote-up" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&and;</button></li>';
-  singleAppend += '<li><button class="vote vote-down" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&or;</button></li>';
-  singleAppend += '</ul>';
-  singleAppend += '<h5 id="' + msg.uri + '">0</h5>';
+  // singleAppend += '<ul class="voteUl">';
+  // singleAppend += '<li><button class="vote vote-up" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&and;</button></li>';
+  // singleAppend += '<li><button class="vote vote-down" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&or;</button></li>';
+  // singleAppend += '</ul>';
+  // singleAppend += '<h5 id="' + msg.uri + '">0</h5>';
   singleAppend += '</div>';
 
   $("#songs-container").append(singleAppend);
@@ -108,19 +109,20 @@ socket.on('join socket', function(msgs) {
 
     var songsAppend = '<br>';
 
-    msgs.forEach(function(element) {
+    $.each(msgs, function(i, element) {
+      var songId = element.uri.split(':')[2];
       if(element.score < 500){
-        songsAppend += '<div class="song-listing elem-inline">';
+        songsAppend += '<div id="' + songId + '" class="song-listing elem-inline">';
         songsAppend += '<img class="elem-inline" src="' + element.image + '" />';
         songsAppend += '<ul class="song-info">';
         songsAppend += '<li class="track">' + element.name + '</li>';
         songsAppend += '<li class="artist">' + element.artist + '</li>';
         songsAppend += '</ul>';
-        songsAppend += '<ul class="voteUl">';
-        songsAppend += '<li><button class="vote vote-up" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&and;</button></li>';
-        songsAppend += '<li><button class="vote vote-down" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&or;</button></li>';
-        songsAppend += '</ul>';
-        songsAppend += '<h5 id="' + element.uri + '">' + element.score + '</h5>';
+        // songsAppend += '<ul class="voteUl">';
+        // songsAppend += '<li><button class="vote vote-up" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&and;</button></li>';
+        // songsAppend += '<li><button class="vote vote-down" tname="'+ element.name + '" aname="' + element.artist + '" image="' + element.image + '" uri="' + element.uri + '" >&or;</button></li>';
+        // songsAppend += '</ul>';
+        // songsAppend += '<h5 id="' + element.uri + '">' + element.score + '</h5>';
         songsAppend += '</div>';
       }  
   });
@@ -130,6 +132,10 @@ socket.on('join socket', function(msgs) {
 });
 
 socket.on('song play', function(msg) {
+  var songId = msg.uri.split(':')[2];
+  console.log('removing old song');
+  $('div').remove('#' + songId);
+
   console.log('Song playing message ' + msg.name);
 
   console.log('Playing a song');
@@ -144,12 +150,10 @@ socket.on('song play', function(msg) {
   playAppend += '<li class="track">' + msg.name + '</li>';
   playAppend += '<li class="artist">' + msg.artist + '</li>';
   playAppend += '</ul>';
-  playAppend += '<ul class="voteUl">';
-  playAppend += '<li><button class="vote vote-up" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&and;</button></li>';
-  playAppend += '<li><button class="vote vote-down" tname="'+ msg.name + '" aname="' + msg.artist + '" image="' + msg.image + '" uri="' + msg.uri + '" >&or;</button></li>';
-  playAppend += '</ul>';
-  playAppend += '<h5 id="' + msg.uri + '">0</h5>';
   playAppend += '</div>';
 
   $("#current-song").append(playAppend);
+
+
+
 });
