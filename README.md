@@ -20,3 +20,9 @@ Login with Spotify and navigate your Spotify desktop player or mobile app to the
 
 ### Relaese Infrastructure
 * Releasing DryDriver through Dokku to AWS
+
+### Color Scheme
+https://material.io/color/#!/?view.left=0&view.right=0&primary.color=263238&secondary.color=01579B
+
+### Globe Thing
+http://codepen.io/patrickedelen/pen/eWbMRY
