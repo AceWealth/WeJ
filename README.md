@@ -1,6 +1,10 @@
 # WeJ
 Spotify App to let the party control the music! Everyone can suggest songs and the highest voted ones will be played.
 
+### NEW DOMAIN NAME
+http://wej.party that's right everyone! Got the :fire: domain name wej.party . Get ready for big changes coming to the project.
+
+
 Live demo available at http://wej.pedelen.com, give it a try!
 Login with Spotify and navigate your Spotify desktop player or mobile app to the playlist called 'WeJ Playlist'. When you add songs on the WeJ Party page they will automatically populate the playlist.
 
